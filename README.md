@@ -51,8 +51,6 @@ To set up the project locally:
 
 ## 🎯 Usage
 
-You can access the website from 🌐 [https://3cd1-2409-408c-139a-40ee-6417-c09a-c2f3-f089.ngrok-free.app](https://3cd1-2409-408c-139a-40ee-6417-c09a-c2f3-f089.ngrok-free.app).
-
 - 🔑 **Login:** Use your administrator credentials to log in.
 - 📊 **Dashboard:** Access the main dashboard to view, add, update, or delete student records.
 - 🔎 **Search Functionality:** Utilize the search bar to find students by name, ID, or course.
