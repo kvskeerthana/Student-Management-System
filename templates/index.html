@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    
+    <!-- Add Manifest -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    
+    <!-- Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/service-worker.js')
+            .then(() => console.log("Service Worker Registered"));
+        }
+    </script>
+</head>
+<body class="bg-light" style="font-family: 'Poppins', sans-serif;">
+
+    <div class="container mt-4">
+        <h2 class="text-center text-primary fw-bold">Student Management System</h2>
+        
+        <!-- Install Button -->
+        <div class="text-center mt-3">
+            <button id="installBtn" class="btn btn-primary btn-lg shadow" style="display: none;">Install App</button>
+        </div>
+
+        <script>
+            let installPrompt;
+            window.addEventListener('beforeinstallprompt', (event) => {
+                event.preventDefault();
+                installPrompt = event;
+                document.getElementById("installBtn").style.display = "block";
+            });
+            document.getElementById("installBtn").addEventListener('click', () => installPrompt.prompt());
+        </script>
+
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=True) %}
+            {% if messages %}
+                <div class="alert alert-dismissible fade show text-center fw-bold">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} mt-2" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Add Student Form -->
+        <div class="card p-4 mt-3 shadow-lg">
+            <h4 class="text-center fw-bold">Add Student</h4>
+            <form action="/add" method="POST" class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control rounded-pill" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Class</label>
+                    <input type="text" name="class" class="form-control rounded-pill" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Phone</label>
+                    <input type="text" name="phone" class="form-control rounded-pill" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Address</label>
+                    <input type="text" name="address" class="form-control rounded-pill" required>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success btn-lg w-100 shadow rounded-pill">Add Student</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search Student -->
+        <div class="card p-4 mt-3 shadow-lg">
+            <h4 class="text-center fw-bold">Search Student</h4>
+            <form action="/search" method="POST" class="d-flex">
+                <input type="text" name="search" class="form-control me-2 rounded-pill" placeholder="Search by Name or Class">
+                <button type="submit" class="btn btn-primary shadow rounded-pill">Search</button>
+            </form>
+        </div>
+
+        <!-- Student List -->
+        <div class="card p-4 mt-3 shadow-lg">
+            <h4 class="text-center fw-bold">Student List</h4>
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Class</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.id }}</td>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.class }}</td>
+                        <td>{{ student.phone }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>
+                            <form action="/update" method="POST" class="row g-2">
+                                <input type="hidden" name="id" value="{{ student.id }}">
+                                <div class="col-md-2">
+                                    <input type="text" name="name" class="form-control rounded-pill" value="{{ student.name }}" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" name="class" class="form-control rounded-pill" value="{{ student.class }}" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" name="phone" class="form-control rounded-pill" value="{{ student.phone }}" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="text" name="address" class="form-control rounded-pill" value="{{ student.address }}" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-warning btn-sm shadow rounded-pill">Update</button>
+                                </div>
+                            </form>
+                            <a href="/delete/{{ student.id }}" class="btn btn-danger btn-sm shadow rounded-pill mt-2" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-3">
+            <a href="/export" class="btn btn-info shadow rounded-pill">Export to Excel</a>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

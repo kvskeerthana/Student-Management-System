@@ -1,0 +1,72 @@
+/* Apply a smooth, professional font */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa; /* Light gray background for better contrast */
+    color: #333; /* Darker text for readability */
+}
+
+/* Style for the card layout */
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-3px); /* Subtle hover effect */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Alert message styling */
+.alert {
+    text-align: center;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 8px;
+}
+
+/* Improve buttons */
+.btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive input fields */
+input[type="text"], input[type="number"] {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    transition: border-color 0.2s ease-in-out;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Add better table styling */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: #343a40;
+    color: white;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Add spacing for mobile screens */
+@media (max-width: 768px) {
+    .card {
+        margin-bottom: 15px;
+    }
+}
