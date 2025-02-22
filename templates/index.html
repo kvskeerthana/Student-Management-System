@@ -13,10 +13,10 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    
+
     <!-- Add Manifest -->
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    
+
     <!-- Register Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
@@ -115,26 +115,19 @@
                         <td>{{ student.class }}</td>
                         <td>{{ student.phone }}</td>
                         <td>{{ student.address }}</td>
-                        <td>
-                            <form action="/update" method="POST" class="row g-2">
+                        <td class="d-flex align-items-center gap-2">
+                            <form action="/update" method="POST" class="d-flex align-items-center gap-2">
                                 <input type="hidden" name="id" value="{{ student.id }}">
-                                <div class="col-md-2">
-                                    <input type="text" name="name" class="form-control rounded-pill" value="{{ student.name }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" name="class" class="form-control rounded-pill" value="{{ student.class }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" name="phone" class="form-control rounded-pill" value="{{ student.phone }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" name="address" class="form-control rounded-pill" value="{{ student.address }}" required>
-                                </div>
-                                <div class="col-md-2">
-                                    <button type="submit" class="btn btn-warning btn-sm shadow rounded-pill">Update</button>
-                                </div>
+                                
+                                <input type="text" name="name" class="form-control rounded-pill" value="{{ student.name }}" required>
+                                <input type="text" name="class" class="form-control rounded-pill" value="{{ student.class }}" required>
+                                <input type="text" name="phone" class="form-control rounded-pill" value="{{ student.phone }}" required>
+                                <input type="text" name="address" class="form-control rounded-pill" value="{{ student.address }}" required>
+
+                                <button type="submit" class="btn btn-warning btn-sm shadow rounded-pill">Update</button>
                             </form>
-                            <a href="/delete/{{ student.id }}" class="btn btn-danger btn-sm shadow rounded-pill mt-2" onclick="return confirm('Are you sure?')">Delete</a>
+
+                            <a href="/delete/{{ student.id }}" class="btn btn-danger btn-sm shadow rounded-pill" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>
                     {% endfor %}

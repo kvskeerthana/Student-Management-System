@@ -1,18 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, Response
+from flask import Flask, render_template, request, redirect, url_for, flash
 import mysql.connector
 import pandas as pd
-import io
-import os
 
 app = Flask(__name__)
-app.secret_key = "your_secret_key"  # Change this for better security
+app.secret_key = "your_secret_key"  # For flash messages
 
-# Function to connect to MySQL (Use Render’s MySQL or another remote DB)
+# Function to connect to MySQL
 def connect_db():
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST"),  # Remote MySQL Host
-        user=os.getenv("DB_USER"),  # MySQL Username
-        password=os.getenv("DB_PASSWORD"),  # MySQL Password
+        host="localhost",
+        user="root",
+        password="Keerthana_@1",  # Change this to your MySQL password
         database="StudentDB"
     )
 
@@ -61,6 +59,7 @@ def search_student():
 
 # Update student
 @app.route("/update", methods=["POST"])
+@app.route("/update", methods=["POST"])
 def update_student():
     student_id = request.form.get("id")
     name = request.form.get("name")
@@ -83,6 +82,7 @@ def update_student():
     flash("Student updated successfully!", "success")
     return redirect(url_for("index"))
 
+
 # Delete student
 @app.route("/delete/<int:id>")
 def delete_student(id):
@@ -95,7 +95,7 @@ def delete_student(id):
     
     return redirect(url_for("index"))
 
-# Export data to Excel (Download instead of saving)
+# Export data to Excel
 @app.route("/export")
 def export_to_excel():
     db = connect_db()
@@ -105,20 +105,11 @@ def export_to_excel():
     db.close()
     
     df = pd.DataFrame(students, columns=["ID", "Name", "Class", "Phone", "Address"])
+    df.to_excel("students_data.xlsx", index=False)
     
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
-        df.to_excel(writer, sheet_name="Students", index=False)
+    flash("Data exported successfully!", "success")
     
-    output.seek(0)
-    
-    return Response(
-        output,
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        headers={"Content-Disposition": "attachment; filename=students_data.xlsx"}
-    )
+    return redirect(url_for("index"))
 
-# Run Flask App
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))  # Default to 10000 if PORT is not set
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)

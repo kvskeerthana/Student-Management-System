@@ -36,6 +36,21 @@ body {
     transform: scale(1.05);
 }
 
+/* Delete button styling */
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+}
+
 /* Responsive input fields */
 input[type="text"], input[type="number"] {
     border-radius: 6px;
@@ -69,4 +84,27 @@ input:focus {
     .card {
         margin-bottom: 15px;
     }
+}
+
+/* Button group styling to align Update and Delete buttons */
+.button-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-group .btn {
+    flex: 1;
+}
+
+/* Ensure actions are aligned properly */
+td .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.button-group form {
+    display: inline-block;
 }
